@@ -1,0 +1,48 @@
+.Register {
+  display: flex;
+  width: 60vw;
+  justify-content: space-between;
+  padding-left: 20vw;
+  padding-right: 20vw;
+}
+
+.TEXT {
+  font-size: 0.8rem;
+  width: 25vw;
+}
+
+.Input {
+  height: 30px;
+  width: 40vw;
+  font-size: 0.5rem;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.Button {
+  width: 50vw;
+  display: flex;
+  justify-content: space-around;
+  padding-left: 25vw;
+  padding-right: 25vw;
+}
+
+.CancelButton {
+  font-size: 0.5rem;
+  width: 20vw;
+  color: black;
+  background-color: rgb(224, 224, 224);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.RegisterButton {
+  font-size: 0.5rem;
+  width: 20vw;
+  color: white;
+  background-color: rgb(26, 188, 156);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}
