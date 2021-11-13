@@ -1,0 +1,508 @@
+gayoungee@ubuntu:~$ ssh -i gayoungkey ubuntu@18.191.161.145
+The authenticity of host '18.191.161.145 (18.191.161.145)' can't be established.
+ECDSA key fingerprint is SHA256:9sQbTnhPBf42svdsGS/15CVl/QjaObWhc7yMxLzWRRw.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '18.191.161.145' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-1021-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri Nov 12 15:11:18 UTC 2021
+
+  System load:  0.0               Processes:             105
+  Usage of /:   34.9% of 7.69GB   Users logged in:       1
+  Memory usage: 54%               IPv4 address for eth0: 172.31.23.51
+  Swap usage:   0%
+
+ * Ubuntu Pro delivers the most comprehensive open source security and
+   compliance features.
+
+   https://ubuntu.com/aws/pro
+
+10 updates can be applied immediately.
+1 of these updates is a standard security update.
+To see these additional updates run: apt list --upgradable
+
+
+Last login: Fri Nov 12 13:59:47 2021 from 125.133.56.87
+ubuntu@ip-172-31-23-51:~$ sudo apt install mariadb-server
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ mariadb-server : Depends: mariadb-server-10.3 (>= 1:10.3.31-0ubuntu0.20.04.1) but it is not going to be installed
+E: Unable to correct problems, you have held broken packages.
+ubuntu@ip-172-31-23-51:~$ sudo apt-get install mariadb-client
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ mariadb-client : Depends: mariadb-client-10.3 (>= 1:10.3.31-0ubuntu0.20.04.1) but it is not going to be installed
+E: Unable to correct problems, you have held broken packages.
+ubuntu@ip-172-31-23-51:~$ sudo mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Connecting to MySQL using a blank password.
+
+VALIDATE PASSWORD COMPONENT can be used to test passwords
+and improve security. It checks the strength of password
+and allows the users to set only those passwords which are
+secure enough. Would you like to setup VALIDATE PASSWORD component?
+
+Press y|Y for Yes, any other key for No: Y
+
+There are three levels of password validation policy:
+
+LOW    Length >= 8
+MEDIUM Length >= 8, numeric, mixed case, and special characters
+STRONG Length >= 8, numeric, mixed case, special characters and dictionary                  file
+
+Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: 0
+Please set the password for root here.
+
+New password: 
+
+Re-enter new password: 
+
+Estimated strength of the password: 50 
+Do you wish to continue with the password provided?(Press y|Y for Yes, any other key for No) : Y
+By default, a MySQL installation has an anonymous user,
+allowing anyone to log into MySQL without having to have
+a user account created for them. This is intended only for
+testing, and to make the installation go a bit smoother.
+You should remove them before moving into a production
+environment.
+
+Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+
+Normally, root should only be allowed to connect from
+'localhost'. This ensures that someone cannot guess at
+the root password from the network.
+
+Disallow root login remotely? (Press y|Y for Yes, any other key for No) : n
+
+ ... skipping.
+By default, MySQL comes with a database named 'test' that
+anyone can access. This is also intended only for testing,
+and should be removed before moving into a production
+environment.
+
+
+Remove test database and access to it? (Press y|Y for Yes, any other key for No) : y
+ - Dropping test database...
+Success.
+
+ - Removing privileges on test database...
+Success.
+
+Reloading the privilege tables will ensure that all changes
+made so far will take effect immediately.
+
+Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
+Success.
+
+All done! 
+ubuntu@ip-172-31-23-51:~$ sudo mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> exit
+Bye
+ubuntu@ip-172-31-23-51:~$ sudo mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> exit
+Bye
+ubuntu@ip-172-31-23-51:~$ sudo mariadb
+sudo: mariadb: command not found
+ubuntu@ip-172-31-23-51:~$ mariadb -u root -p
+
+Command 'mariadb' not found, but can be installed with:
+
+sudo apt install mariadb-client-core-10.3
+
+ubuntu@ip-172-31-23-51:~$ mysql -u root -p
+Enter password: 
+ERROR 1698 (28000): Access denied for user 'root'@'localhost'
+ubuntu@ip-172-31-23-51:~$ mysql -u root -p
+Enter password: 
+ERROR 1698 (28000): Access denied for user 'root'@'localhost'
+ubuntu@ip-172-31-23-51:~$ apt-get purge mysql-server
+E: Could not open lock file /var/lib/dpkg/lock-frontend - open (13: Permission denied)
+E: Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), are you root?
+ubuntu@ip-172-31-23-51:~$ sudo mysql
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 14
+Server version: 8.0.27-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use mysql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select host from mysql.user;
++-----------+
+| host      |
++-----------+
+| localhost |
+| localhost |
+| localhost |
+| localhost |
+| localhost |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> create user sweap;
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+mysql> create user 'sweap'@'%' identified by 'sweappw';
+ERROR 1819 (HY000): Your password does not satisfy the current policy requirements
+mysql> create user 'sweap'@'%' identified by 'sweappassword';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select host,user from mysql.user;
++-----------+------------------+
+| host      | user             |
++-----------+------------------+
+| %         | sweap            |
+| localhost | debian-sys-maint |
+| localhost | mysql.infoschema |
+| localhost | mysql.session    |
+| localhost | mysql.sys        |
+| localhost | root             |
++-----------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database sweapdb;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> grant all privileges on sweapdb.* to sweap@'%' identified by 'sweappassword';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'identified by 'sweappassword'' at line 1
+mysql> grant all privileges on sweapdb.* to sweap@'%' with grant option;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sweapdb            |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use sweapdb;
+Database changed
+mysql> CREATE TABLE USER
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> Password              VARCHAR(20)  NOT NULL ,
+    -> Email                 VARCHAR(20)  NULL ,
+    -> PwQuestion            VARCHAR(50)  NULL ,
+    -> PwAnswer              VARCHAR(50)  NULL ,
+    -> IsManger              SMALLINT  NOT NULL ,
+    -> PRIMARY KEY(UserID)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE STOCK
+    -> (
+    -> StockID               VARCHAR(20)  NOT NULL ,
+    -> RealTimePrice         NUMBER  NOT NULL ,
+    -> MaxPrice              NUMBER  NULL ,
+    -> MinPrice              NUMBER  NULL ,
+    -> YearSales             NUMBER  NULL ,
+    -> StockName             VARCHAR(20)  NOT NULL ,
+    -> PRIMARY KEY(StockID)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NUMBER  NOT NULL ,
+MaxPrice              NUMBER  NULL ,
+MinPrice              NU' at line 4
+mysql> CREATE TABLE STOCK
+    -> (
+    -> StockID               VARCHAR(20)  NOT NULL ,
+    -> RealTimePrice         INT  NOT NULL ,
+    -> MaxPrice              INT  NULL ,
+    -> MinPrice              INT  NULL ,
+    -> YearSales             INT  NULL ,
+    -> StockName             VARCHAR(20)  NOT NULL ,
+    -> PRIMARY KEY(StockID)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE TRANSACTION
+    -> (
+    -> StockID               VARCHAR(20)  NOT NULL ,
+    -> MemberID              VARCHAR(20)  NOT NULL ,
+    -> Quantity              INT  NOT NULL ,
+    -> TransactionDate       DATE  NOT NULL ,
+    -> PRIMARY KEY(StockID)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE CONTEST
+    -> (
+    -> ContestNum            INT  NOT NULL ,
+    -> ContestName           VARCHAR(20)  NOT NULL ,
+    -> StartDate             DATE  NOT NULL ,
+    -> FinishDate            DATE  NOT NULL ,
+    -> PreStartDate          DATE  NULL ,
+    -> PreFinishDate         DATE  NULL ,
+    -> PRIMARY KEY(ContestNum)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE PARTICIPATE
+    -> (
+    -> MemberID              VARCHAR(20)  NOT NULL ,
+    -> ContestNum            INT  NOT NULL ,
+    -> ContestProfit         INT  NULL ,
+    -> InitialProfit         INT  NULL ,
+    -> FinalProfit           INT  NULL 
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE PORTFOLIO
+    -> (
+    -> MemberID              VARCHAR(20)  NOT NULL ,
+    -> EvaluationPrice       INT  NULL ,
+    -> Profit                INT  NULL ,
+    -> FOREIGN KEY(
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 7
+mysql> CREATE TABLE PORTFOLIO
+    -> (
+    -> MemberID              VARCHAR(20)  NOT NULL ,
+    -> EvaluationPrice       INT  NULL ,
+    -> Profit                INT  NULL ,
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 6
+mysql> drop table transaction;
+ERROR 1051 (42S02): Unknown table 'sweapdb.transaction'
+mysql> drop table sweapdb.transaction;
+ERROR 1051 (42S02): Unknown table 'sweapdb.transaction'
+mysql> drop table transaction;
+ERROR 1051 (42S02): Unknown table 'sweapdb.transaction'
+mysql> drop table TRANSACTION;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> drop table PARTICIPATE;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE TRANSACTION
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> StockID               VARCHAR(20)  NOT NULL ,
+    -> Quantity              INT  NOT NULL ,
+    -> TransactionDate       DATE  NOT NULL ,
+    -> PRIMARY KEY (UserID,StockID),
+    -> FOREIGN KEY (UserID) REFERENCES USER(UserID),
+    -> FOREIGN KEY (StockID) REFERENCES STOCK(StockID)
+    -> 
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE PARTICIPATE
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> ContestNum            INT  NOT NULL ,
+    -> ContestProfit         INT  NULL ,
+    -> InitialProfit         INT  NULL ,
+    -> FinalProfit           INT  NULL ,
+    -> PRIMARY KEY (UserID,ContestNum),
+    -> FOREIGN KEY (UserID) REFERENCES USER(UserID),
+    -> FOREIGN KEY (ContestNum) REFERENCES CONTEST(ContestNum)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE PORTFOLIO
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> EvaluationPrice       INT  NULL ,
+    -> Profit                INT  NULL ,
+    -> PRIMARY KEY (UserID),
+    -> FOREIGN KEY (UserID) REFERENCES USER(UserID),
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 8
+mysql> CREATE TABLE PORTFOLIO
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> EvaluationPrice       INT  NULL ,
+    -> Profit                INT  NULL ,
+    -> PRIMARY KEY (UserID),
+    -> FOREIGN KEY (UserID) REFERENCES USER(UserID)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE ACCOUNT
+    -> (
+    -> UserID              VARCHAR(20)  NOT NULL ,
+    -> TotalAsset            INT  NULL ,
+    -> Asset                 INT  NULL ,
+    -> InitialAsset          INT  NULL ,
+    -> PRIMARY KEY (UserID),
+    -> FOREIGN KEY (UserID) REFERENCES USER(UserID)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show tables;
++-------------------+
+| Tables_in_sweapdb |
++-------------------+
+| ACCOUNT           |
+| CONTEST           |
+| PARTICIPATE       |
+| PORTFOLIO         |
+| STOCK             |
+| TRANSACTION       |
+| USER              |
++-------------------+
+7 rows in set (0.00 sec)
+
+mysql> desc user;
+ERROR 1146 (42S02): Table 'sweapdb.user' doesn't exist
+mysql> desc USER;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| UserID     | varchar(20) | NO   | PRI | NULL    |       |
+| Password   | varchar(20) | NO   |     | NULL    |       |
+| Email      | varchar(20) | YES  |     | NULL    |       |
+| PwQuestion | varchar(50) | YES  |     | NULL    |       |
+| PwAnswer   | varchar(50) | YES  |     | NULL    |       |
+| IsManger   | smallint    | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc STOCK;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| StockID       | varchar(20) | NO   | PRI | NULL    |       |
+| RealTimePrice | int         | NO   |     | NULL    |       |
+| MaxPrice      | int         | YES  |     | NULL    |       |
+| MinPrice      | int         | YES  |     | NULL    |       |
+| YearSales     | int         | YES  |     | NULL    |       |
+| StockName     | varchar(20) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> desc TRANSACTION;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| UserID          | varchar(20) | NO   | PRI | NULL    |       |
+| StockID         | varchar(20) | NO   | PRI | NULL    |       |
+| Quantity        | int         | NO   |     | NULL    |       |
+| TransactionDate | date        | NO   |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc ACCOUNT;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| UserID       | varchar(20) | NO   | PRI | NULL    |       |
+| TotalAsset   | int         | YES  |     | NULL    |       |
+| Asset        | int         | YES  |     | NULL    |       |
+| InitialAsset | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc PORTFOLIO;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| UserID          | varchar(20) | NO   | PRI | NULL    |       |
+| EvaluationPrice | int         | YES  |     | NULL    |       |
+| Profit          | int         | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc CONTEST;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| ContestNum    | int         | NO   | PRI | NULL    |       |
+| ContestName   | varchar(20) | NO   |     | NULL    |       |
+| StartDate     | date        | NO   |     | NULL    |       |
+| FinishDate    | date        | NO   |     | NULL    |       |
+| PreStartDate  | date        | YES  |     | NULL    |       |
+| PreFinishDate | date        | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> desc PARTICIPATE;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| UserID        | varchar(20) | NO   | PRI | NULL    |       |
+| ContestNum    | int         | NO   | PRI | NULL    |       |
+| ContestProfit | int         | YES  |     | NULL    |       |
+| InitialProfit | int         | YES  |     | NULL    |       |
+| FinalProfit   | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
