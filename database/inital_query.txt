@@ -1,0 +1,90 @@
+
+CREATE TABLE USER
+(
+	UserID              VARCHAR(20)  NOT NULL ,
+	Password              VARCHAR(20)  NOT NULL ,
+	Email                 VARCHAR(20)  NULL ,
+	PwQuestion            VARCHAR(50)  NULL ,
+	PwAnswer              VARCHAR(50)  NULL ,
+	IsManger              SMALLINT  NOT NULL ,
+	PRIMARY KEY(UserID)
+);
+
+
+CREATE TABLE STOCK
+(
+	StockID               VARCHAR(20)  NOT NULL ,
+	RealTimePrice         INT  NOT NULL ,
+	MaxPrice              INT  NULL ,
+	MinPrice              INT  NULL ,
+	YearSales             INT  NULL ,
+	StockName             VARCHAR(20)  NOT NULL ,
+	PRIMARY KEY(StockID)
+);
+
+
+CREATE TABLE TRANSACTION
+(
+	UserID              VARCHAR(20)  NOT NULL ,
+	StockID               VARCHAR(20)  NOT NULL ,
+	Quantity              INT  NOT NULL ,
+	TransactionDate       DATE  NOT NULL ,
+	PRIMARY KEY (UserID,StockID),
+	FOREIGN KEY (UserID) REFERENCES USER(UserID),
+	FOREIGN KEY (StockID) REFERENCES STOCK(StockID)
+	
+);
+
+CREATE TABLE CONTEST
+(
+	ContestNum            INT  NOT NULL ,
+	ContestName           VARCHAR(20)  NOT NULL ,
+	StartDate             DATE  NOT NULL ,
+	FinishDate            DATE  NOT NULL ,
+	PreStartDate          DATE  NULL ,
+	PreFinishDate         DATE  NULL ,
+	PRIMARY KEY(ContestNum)
+);
+
+CREATE TABLE PARTICIPATE
+(
+	UserID              VARCHAR(20)  NOT NULL ,
+	ContestNum            INT  NOT NULL ,
+	ContestProfit         INT  NULL ,
+	InitialProfit         INT  NULL ,
+	FinalProfit           INT  NULL ,
+	PRIMARY KEY (UserID,ContestNum),
+	FOREIGN KEY (UserID) REFERENCES USER(UserID),
+	FOREIGN KEY (ContestNum) REFERENCES CONTEST(ContestNum)
+);
+
+CREATE TABLE PORTFOLIO
+(
+	UserID              VARCHAR(20)  NOT NULL ,
+	EvaluationPrice       INT  NULL ,
+	Profit                INT  NULL ,
+	PRIMARY KEY (UserID),
+	FOREIGN KEY (UserID) REFERENCES USER(UserID)
+);
+
+CREATE TABLE ACCOUNT
+(
+	UserID              VARCHAR(20)  NOT NULL ,
+	TotalAsset            INT  NULL ,
+	Asset                 INT  NULL ,
+	InitialAsset          INT  NULL ,
+	PRIMARY KEY (UserID),
+	FOREIGN KEY (UserID) REFERENCES USER(UserID)
+);
+
+
+--foreign key 추가 
+ALTER TABLE TRANSACTION ADD FOREIGN KEY('StockID') REFERENCES STOCK('StockID');
+ALTER TABLE TRANSACTION ADD FOREIGN KEY('UserID') REFERENCES USER('UserID');
+
+ALTER TABLE ACCOUNT ADD FOREIGN KEY('UserID') REFERENCES USER('UserID');
+
+ALTER TABLE PORTFOLIO ADD FOREIGN KEY('UserID') REFERENCES USER('UserID');
+
+ALTER TABLE PARTICIPATE ADD FOREIGN KEY('UserID') REFERENCES USER('UserID');
+ALTER TABLE PARTICIPATE ADD FOREIGN KEY('ContestNum') REFERENCES CONTEST('ContestNum');
