@@ -18,9 +18,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) =>{
-    res.send('혁이는 코딩 중!')
-})
 
 app.post("/TRANSACTION", (req,res)=>{
     const post = req.body.query;
