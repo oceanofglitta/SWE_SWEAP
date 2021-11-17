@@ -1,5 +1,5 @@
-import { React, useState } from "react";
-import "./Register.css";
+import React ,{ useState } from "react";
+import "../css/Register.css";
 
 function Register() {
   const [inputs, setInputs] = useState({
