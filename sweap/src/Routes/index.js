@@ -6,5 +6,4 @@ export { default as Portfolio3 } from '../components/Portfolio3';
 export { default as BuyStockPage} from '../components/BuyStockPage'
 export { default as SellStockPage} from '../components/SellStockPage'
 export { default as SearchPage }from '../components/SearchPage'
-export { default as getStock }from '../components/GetStockInfos'
 export { default as Register }from '../components/Register'
