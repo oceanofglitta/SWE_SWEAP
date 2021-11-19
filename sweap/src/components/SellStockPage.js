@@ -9,22 +9,23 @@ function clickToBuy(e){ window.location.href="/buy"} //매도 페이지로 이�
 class SellStockPage  extends Component {
     constructor(props) { 
         super(props);
-        this.state = {
+        this.state = {//현재 state 저장 
             stockName:"삼성전자",
-            stockid:'samsung',
+            stockid:'123',
             cost: 73200,
-            quantity:0,
+            quantity:2,
             id:"ggh",
-            testbody:""
+            testbody:"",
+            request:""
         }; 
     }
     AlertFaiil=()=>{alert('Click!')};
     //매도하고자하는 주식을 사용자가 가지고있는지 확인
     sellStock = ()=>{
         const post ={
-          query : "SELECT * FROM TRANSACTION WHERE UserID='"+this.state.id+"' AND StockID='"+this.state.stockid+"' AND Quantity='"+this.state.quantity+"'",
+          query : "SELECT * FROM STOCK WHERE StockID='123'",//mysql로 전송할 쿼리 문 
         };
-        fetch("http://localhost:3001/TRANSACTION", {
+        fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
           method : "post", // 통신방법
           headers : {
             "content-type" : "application/json",
@@ -34,16 +35,22 @@ class SellStockPage  extends Component {
         .then((res)=>res.json())
         .then((json)=>{
           this.setState({
-            testbody : json.StockID,
-          });
+            testbody : json.StockID,//mysql에서 전송된 데이터 중 필요한 데이터 
+          }    );
         });
-        if(this.testbody!==this.state.stockid){
-          alert(`매도하고자하는 주식과 개수를 보유하고있지않습니다.`)
-        }
-      };
+        this.alterSell()
+    };
+    alterSell = ()=>{
+      if(this.state.testbody===this.state.id){
+        this.setState({request:"매도 요청 불가"});
+      }
+      else{
+        this.setState({request:"매도 요청 가능"});
+      }
+    }
     CalTotalCost=()=>{ return this.state.cost*this.state.quantity};//총 가격=현재가격*현재 개수
-    AddCost = () => {this.setState({ cost: this.state.cost + 1, }); }; //가격 +1
-    minusCost = () => { this.setState({ cost: this.state.cost - 1,});}; //가격 -1
+    AddCost = () => {this.setState({ cost: this.state.cost + 10, }); }; //가격 +10
+    minusCost = () => { this.setState({ cost: this.state.cost - 10,});}; //가격 -10
     AddQuantity = () => {this.setState({ quantity: this.state.quantity + 1, }); }; //수량 +1
     minusQuantity = () => { this.setState({ quantity: this.state.quantity - 1,});}; //수량 -1
     render() {
@@ -60,7 +67,6 @@ class SellStockPage  extends Component {
                     <div className="button button-blue">매도</div>
                 </div>
                 <h1>{this.state.testbody}</h1>
-
                     <p>매도 가격 </p>
                     <button onClick={this.minusCost}>-</button>
                     <input id="cost" value={this.state.cost} type='number'/>
