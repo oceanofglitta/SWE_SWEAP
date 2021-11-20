@@ -1,0 +1,47 @@
+.Login {
+  font-size: 10vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.Login2 {
+  font-size: 1vh;
+  font-weight: bold;
+  text-align: center;
+}
+
+.LInput {
+  width: 60vw;
+  height: 5vh;
+  font-size: 2vh;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.Buttons {
+  width: 55vw;
+  padding-left: 20vw;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.LoginButton {
+  font-size: 2vh;
+  width: 25vw;
+  color: white;
+  background-color: rgb(26, 188, 156);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.LRegisterButton {
+  font-size: 2vh;
+  width: 25vw;
+  color: white;
+  background-color: rgb(184, 184, 184);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}
