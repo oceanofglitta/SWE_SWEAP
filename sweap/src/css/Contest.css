@@ -1,0 +1,21 @@
+.contest1 {
+  font-size: 4vh;
+  font-weight: bold;
+}
+
+.contest2 {
+  font-size: 3vh;
+  font-weight: bold;
+
+  text-align: right;
+}
+
+.ContestButton {
+  font-size: 1rem;
+  width: 30vw;
+  color: white;
+  background-color: rgb(26, 188, 156);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+}

@@ -1,0 +1,21 @@
+.Navigation1 {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 6vh;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-top: 3px solid black;
+}
+
+.Navigation2 {
+  font-size: 1vh;
+  font-weight: bold;
+  color: black;
+  text-decoration-line: none;
+}
