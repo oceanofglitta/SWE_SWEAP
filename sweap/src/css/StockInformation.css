@@ -1,0 +1,58 @@
+.StockName {
+    width:30vw;
+    font-size: 30px;
+    
+}
+
+.StockCurrentPrice {
+    width:30vw;
+    font-size: 20px;
+    color: red;
+}
+
+.StockNow {
+    padding: 1rem;
+}
+
+.buttonsss {
+    width: 7vw;
+    height: 5vh;
+    margin: 2px;
+    cursor: pointer;
+    border: 1px solid #a0a0a0;
+    transition: all 0.15s;
+    user-select: none;
+    text-align: center;
+    display: inline-block;
+    border-radius: 5px;
+    line-height: 5vh;
+}
+
+.buttonsss:hover {
+    background: #1abc9c;
+    color: white;
+}
+.buttons-wrapper {
+    width: 30vw;
+    padding: 1rem;
+}
+
+.chart-wrapper {
+    width: 28vw;
+    height: 28vw;
+    padding: 1rem;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+.goju-wrapper {
+    width:30vw;
+    padding: 1rem;
+}
+
+.gojuga {
+    width: 14vw;
+    display: inline-block;
+}
+
+.centered { display: table; margin-left: auto; margin-right: auto; padding: 1rem; }
