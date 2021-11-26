@@ -86,7 +86,7 @@ class BuyStockPage  extends Component {
     const post ={
       query : "SELECT * FROM ACCOUNT WHERE UserID='"+this.state.userid+"';",//현재 아이디의 사용자의 계정 접근
     };
-    fetch("http://localhost:3001/SQL",{//mysql fetch 서버 주소 
+    fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
       headers : {"content-type" : "application/json",},
       body : JSON.stringify(post),
