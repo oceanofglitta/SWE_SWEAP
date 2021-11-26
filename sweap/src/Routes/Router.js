@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Routes, Link } from 'react-router-dom';
+import Navigation from '../components/Navigation';
 import {  MainPage,BuyStockPage, SellStockPage, SearchPage, Portfolio, Portfolio2, Portfolio3, Price ,Register, StockInformation} from './index';
+import Navigation from '../components/Navigation'
 
 const RRouter = () => (
     <Router>
@@ -17,6 +19,7 @@ const RRouter = () => (
             <Route path="/Register" element={<Register/>} />
             <Route path="/StockInformation" element={<StockInformation/>} />
           </Routes>
+          <Navigation/>
         </div>
       </Router>
 );

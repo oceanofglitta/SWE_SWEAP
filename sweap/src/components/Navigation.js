@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import "./css/Navigation.css";
+import "../css/Navigation.css";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { AiOutlineStar } from "react-icons/ai";
@@ -30,4 +30,4 @@ class Navigation extends Component {
   }
 }
 
-export default withRouter(Navigation);
+export default Navigation;
