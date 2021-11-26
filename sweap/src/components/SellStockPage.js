@@ -2,10 +2,14 @@ import { render } from '@testing-library/react';// eslint-disable-line no-unused
 import React from 'react';
 import { Component } from 'react/cjs/react.production.min';
 import '../css/BuySellPage.css';
+import ReactDom from 'react-dom';
 
+function handleChangeCost(e){ userInputCost=e.target.value;}//지정가 입력창에 입력 받기
+function changeCost(){ change=true;}//지정가로 가격 변동
 function clickToSearch(e){ window.location.href="/seach"} //주식 검색 페이지로 이동 함수 
 function clickToBuy(e){ window.location.href="/buy"} //매도 페이지로 이동 함수 
-var start=0;
+var start=0; var userInputCost=0; var change=false;
+const PopupDom = ({ children }) => {const el = document.getElementById('popup'); return ReactDom.createPortal(children, el);};
 class SellStockPage  extends Component {
     constructor(props) { 
         super(props);
@@ -18,7 +22,11 @@ class SellStockPage  extends Component {
             testbody:"", 
             totalCost:0,
             userQuantity:0,
+            userQuantity:0,
+            isOpenPopup: false,
         }; 
+        this.openPopup = this.openPopup.bind(this);
+        this.closePopup = this.closePopup.bind(this);  
     }
     render() {
       if(start==0){this.startPage();this.requestStock();}
@@ -33,10 +41,14 @@ class SellStockPage  extends Component {
                   <div onClick={clickToBuy} className="button button-red">매수</div>
                   <div className="button button-blue">매도</div>
               </div>
-                  <p>매도 가격 </p>
+                  <p>매도 시장가 </p>
                   <button onClick={this.minusCost}>-</button>
                   <input id="cost" value={this.state.cost} type='number'/>
                   <button onClick={this.AddCost}>+</button>
+                  <div>
+                    <button type="button" id="popup" onClick={this.openPopup}>매도 지정가</button>
+                    {this.state.isOpenPopup && <PopupDom><PopupContent onClose={this.closePopup}/></PopupDom>}
+                  </div>
                   <p>매도 개수</p>
                   <button onClick={this.minusQuantity}>-</button>
                   <input id="quantity" value={this.state.quantity} min="0" type='number'/>
@@ -88,7 +100,7 @@ class SellStockPage  extends Component {
   //transaction db에 거래내역 업데이트
   updateTransaction=()=>{
     const post ={
-      query : "INSERT INTO TRANSACTION(StockID, Quantity,TransactionDate,TransactionType, UserID) VALUES ('"
+      query : "INSERT INTO TRANSACTION(StockName, Quantity,TransactionDate,TransactionType, UserID) VALUES ('"
       +this.state.stockid+"',"+this.state.quantity+",NOW(),'SELL','"+this.state.userid+"');"//mysql로 전송할 쿼리 문 
     };
     fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
@@ -100,7 +112,7 @@ class SellStockPage  extends Component {
     //MYSTOCKLIST db에 매도 주식 개수 반영
   updateMyStockList=()=>{
     const post ={
-      query : "UPDATE MYSTOCKLIST SET HoldingQuantity="+(this.state.userQuantity-this.state.quantity)+" WHERE UserID='"+this.state.userid+"' AND HoldingStockID='"+this.state.stockid+"';",//mysql로 전송할 쿼리 문 
+      query : "UPDATE MYSTOCKLIST SET HoldingQuantity="+(this.state.userQuantity-this.state.quantity)+" WHERE UserID='"+this.state.userid+"' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
     };
     fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
@@ -123,8 +135,26 @@ class SellStockPage  extends Component {
   resetSell=()=>{this.setState({quantity : 0,});}
   CalTotalCost=()=>{ this.state.totalCost=this.state.cost*this.state.quantity; return this.state.totalCost;};//총 가격=현재가격*현재 개수
   AddCost = () => {this.setState({ cost: this.state.cost + 10, }); }; //가격 +10
-    minusCost = () => { this.setState({ cost: this.state.cost - 10,});}; //가격 -10
-    AddQuantity = () => {this.setState({ quantity: this.state.quantity + 1, }); }; //수량 +1
-    minusQuantity = () => { this.setState({ quantity: this.state.quantity - 1,});}; //수량 -1
+  minusCost = () => { if(this.state.cost!=0){this.setState({ cost: this.state.cost - 100,});}}; //가격 -100
+  AddQuantity = () => {this.setState({ quantity: this.state.quantity + 1, }); }; //수량 +1
+  minusQuantity = () => { if(this.state.quantity!=0){this.setState({ quantity: this.state.quantity - 1,});}}; //수량 -1
+  openPopup=()=>{this.setState({isOpenPopup: true,})};//팝업 오픈
+  closePopup=()=>{this.setState({isOpenPopup: false, });if(change==true){this.setState({cost: Number(userInputCost),})}change=false;};//팝업 닫음 이때, 가격을 변동시킴
+}
+//지정가 입력 팝업
+class PopupContent extends Component {
+  render(){
+      return(
+              <div className="full_layer">
+                  <div className="common_alert"> 
+                    <input type="number" onChange={handleChangeCost}/>
+                    <button type="button" onClick={this.props.onClose,changeCost}>입력</button>
+                      <div>
+                      <button type="button" onClick={this.props.onClose}>닫기</button>
+                      </div>
+                  </div>
+              </div>
+      );
+  }
 }
 export default SellStockPage;
