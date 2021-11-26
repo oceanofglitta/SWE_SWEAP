@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';// eslint-disable-line no-unused-vars
 import React from 'react';
 import { Component, __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } from 'react/cjs/react.production.min';
-import shortStockInfos from './stockList.json';
+import shortStockInfos from '../dataframe.json';
 import '../css/SearchPage.css'
 
 class SearchPage  extends Component {
@@ -17,29 +17,34 @@ class SearchPage  extends Component {
         let keyword = event.target.value;
         this.setState({search:keyword})
     }
+    
 
     render() {
         const styleInfo = {
             paddingRight:'10px'
         }
 
-        const items = shortStockInfos.filter((data)=> {
+        const items = shortStockInfos.data.filter((data)=> {
             if(this.state.search == null) return data
-            else if(data.name.toLowerCase().includes(this.state.search.toLowerCase())) return data
+            else if(data.종목.toLowerCase().includes(this.state.search.toLowerCase())) return data
         }).map((data, index)=> {
+            const theStock = "/info?stockName="+data.종목
             return (
-                <div className="stockItem" key={index}>{data.name}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{data.currentPrice}원</div>
+                <a href={theStock}>
+                <div className="stockItem" key={index}>{data.종목} {data.현재가}원</div>
+                </a>
             )
         })
-
         return (
             <main className="centered">
                 <div className="searchSpace">
                     <input type="text" placeholder="StockName" className="searchForm" onChange={(e)=>this.searchSpace(e)} />
                 </div>
+                
                 <div className="searchResult">
-                   {items}
+                    {items}
                 </div>
+                
             </main>
         )
       }
