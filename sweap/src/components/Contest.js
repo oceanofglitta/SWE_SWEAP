@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/Contest.css";
+import "../css/Contest.css";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
