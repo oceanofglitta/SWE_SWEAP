@@ -1,6 +1,6 @@
 import React from "react";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
-import "./css/Login.css";
+import "../css/Login.css";
 import { Link } from "react-router-dom";
 
 function Login() {

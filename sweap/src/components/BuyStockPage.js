@@ -1,21 +1,24 @@
 import { render } from '@testing-library/react';// eslint-disable-line no-unused-vars
 import React ,{useEffect} from 'react';
 import { Component } from 'react/cjs/react.production.min';
-import '../css/BuySellPage.css';
+import '../css/Button.css';
 import ReactDom from 'react-dom';
+
+const current = decodeURI(window.location.href);
+const search = current.split("?")[1];
+const params = new URLSearchParams(search);
+const keywords = params.get('stockName');
 
 function handleChangeCost(e){ userInputCost=e.target.value;}//지정가 입력창에 입력 받기
 function changeCost(){ change=true;}//지정가로 가격 변동
-function clickToSearch(e){ window.location.href="/search"} //주식 검색 페이지로 이동 함수 
-function clickToSell(e){ window.location.href="/sell"} //매수 페이지로 이동 함수 
+function clickToPortfolio(e){ window.location.href="/Portfolio"} //주식 검색 페이지로 이동 함수
 var start=0; var userInputCost=0; var change=false;
 const PopupDom = ({ children }) => {const el = document.getElementById('popup'); return ReactDom.createPortal(children, el);};
 class BuyStockPage  extends Component {
     constructor(props) { 
         super(props);
         this.state = {
-          stockName:"삼성전자",
-          stockid:'samsung',
+          stockName:keywords,
           cost: 73200,
           quantity:0,
           userid:"ggh",
@@ -34,20 +37,16 @@ class BuyStockPage  extends Component {
         return (
             <div className="form">
                 <div className="form-wrapper">
-                    <button onClick={clickToSearch}>&lt; </button>
+                    <button onClick={clickToPortfolio}>&lt; </button>
                     <h1>{this.state.stockName}</h1>
                 </div>  
                 <div className="centered">
-                <div className="button-centered">
-                    <div className="button button-red">매수</div>
-                    <div onClick={clickToSell} className="button button-blue">매도</div>
-                </div>
                     <p>매수 시장가 </p>
                     <button onClick={this.minusCost}>-</button>
                     <input id="cost" value={this.state.cost} type='number'/>
                     <button onClick={this.AddCost}>+</button>
-                    <div>
-                    <button type="button" id="popup" onClick={this.openPopup}>매수 지정가</button>
+                    <div><p/>
+                    <button type="button" id="popup" onClick={this.openPopup}>매수 지정가</button><p/><p/><p/><p/>
                     {this.state.isOpenPopup && <PopupDom><PopupContent onClose={this.closePopup}/></PopupDom>}
                 </div>
                     <p>매수 개수</p>
@@ -55,11 +54,8 @@ class BuyStockPage  extends Component {
                     <input id="quantity" value={this.state.quantity} min="0" type='number'/>
                     <button onClick={this.AddQuantity}>+</button>
                 </div>
-                <div className="button-centered">
-                    <div className="button button-small" >전액 사용</div>
-                </div>
-                <p style ={{color:"red",fontSize: "20px"}}>총 금액</p>
-                <span id="TotalCost" class="quiz-text" style ={{color:"red",fontSize: "60px "}}>{this.CalTotalCost()}</span>
+                <p style ={{color:"red",fontSize: "20px"}}>총 금액</p><p/>
+                <span id="TotalCost" class="quiz-text" style ={{color:"red",fontSize: "60px "}}>{this.CalTotalCost()}</span><p/><p/><p/>
                 <div className="button-centered">
                     <div onClick={this.buyStock} className="button button-red">매수</div>
                     <div  onClick={this.resetBuy} className="button button-gray" >취소</div>
@@ -154,7 +150,7 @@ class BuyStockPage  extends Component {
   updateTransaction=()=>{
     const post ={
       query : "INSERT INTO TRANSACTION(StockName, Quantity,TransactionDate,TransactionType, UserID) VALUES ('"
-      +this.state.stockid+"',"+this.state.quantity+",NOW(),'BUY','"+this.state.userid+"');"
+      +this.state.stockName+"',"+this.state.quantity+",NOW(),'BUY','"+this.state.userid+"');"
     };
     fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
