@@ -22,8 +22,8 @@
 }
 
 .button{
-    width: 50px; 
-    display: inline-block;
+  width: 50px; 
+  display: inline-block;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   padding-left: 0.8rem;
@@ -36,14 +36,29 @@
   font-size: 20px;
   cursor: pointer;
 }
-
+.button-green{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size:15px;
+  border-radius: 3px; 
+  margin-left: 1rem;
+  margin: 10px auto;
+  background:#22b8cf;
+  color: white;
+  cursor: pointer;
+}
 .button-red{font-size:20px; background: red;}
 .button-blue{font-size:20px; background: blue;}
 .button-red-small{width: 30px;  font-size: 15px; background: red;}
 .button-blue-small{width: 30px;  font-size: 15px;background: blue;}
 .button-gray{font-size:20px; background: gray;}
 .button:hover {
-  background: #3bc9db;
+  background: gray;
+}
+.button-green:hover {
+  background: gray;
 }
 
 .centered { display: table; margin-left: auto; margin-right: auto; }
