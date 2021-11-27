@@ -1,13 +1,13 @@
-import { render } from '@testing-library/react';// eslint-disable-line no-unused-vars
-import React ,{useEffect} from 'react';
+import React from 'react';
 import { Component } from 'react/cjs/react.production.min';
 import '../css/Button.css';
 import ReactDom from 'react-dom';
+import shortStockInfos from '../dataframe.json'
 
 const current = decodeURI(window.location.href);
 const search = current.split("?")[1];
 const params = new URLSearchParams(search);
-const keywords = params.get('stockName');
+const keyword = params.get('stockName');
 
 function handleChangeCost(e){ userInputCost=e.target.value;}//지정가 입력창에 입력 받기
 function changeCost(){ change=true;}//지정가로 가격 변동
@@ -18,22 +18,25 @@ class BuyStockPage  extends Component {
     constructor(props) { 
         super(props);
         this.state = {
-          stockName:keywords,
-          cost: 73200,
+          stockName:keyword,
+          inputcost: 0,
+            nowcost:0,
+            lowcost:0,
+            highcost:0,
           quantity:0,
-          userid:"ggh",
+          userid:window.sessionStorage.getItem("userID"),
           userAsset:0,
           userTotalAsset:0,  
           totalCost:0,
           userQuantity:0,
-          userQuantity:0,
           isOpenPopup: false,
+          result:"주문 대기",
         }; 
         this.openPopup = this.openPopup.bind(this);
         this.closePopup = this.closePopup.bind(this);  
       }
-    render() {
-      if(start==0){this.startPage();this.requestUser();this.hasStock();}
+    render() {  
+        if(start==0){this.startPage();this.requestUser();this.hasStock();this.requestCost();}
         return (
             <div className="form">
                 <div className="form-wrapper">
@@ -43,10 +46,10 @@ class BuyStockPage  extends Component {
                 <div className="centered">
                     <p>매수 시장가 </p>
                     <button onClick={this.minusCost}>-</button>
-                    <input id="cost" value={this.state.cost} type='number'/>
+                    <input id="cost" value={this.state.inputcost} type='number'/>
                     <button onClick={this.AddCost}>+</button>
                     <div><p/>
-                    <button type="button" id="popup" onClick={this.openPopup}>매수 지정가</button><p/><p/><p/><p/>
+                    <button className="button-green" type="button" id="popup" onClick={this.openPopup}>매수 지정가</button><p/><p/><p/><p/>
                     {this.state.isOpenPopup && <PopupDom><PopupContent onClose={this.closePopup}/></PopupDom>}
                 </div>
                     <p>매수 개수</p>
@@ -63,26 +66,36 @@ class BuyStockPage  extends Component {
             </div>
         );
       }
+      //페이지가 새로고침되었음을 알리는 함수
     startPage=()=>{if(start==0){start=1;}    }
-    //매수
+    //매수를 진행하는 함수
     buyStock = ()=>{
       if(this.state.userAsset>=this.state.totalCost){//현재 사용자의 자산이 매수하려는 총 가격보다 많을 경우 
-      this.updateMystockList();//매수 내역을 사용자 주식 리스트에 반영
-      this.updateAccount();
-      this.updateTransaction()
-      this.resetBuy()
-      alert("매수 완료");
+      this.requestOrder();
+      this.updateTransaction();
+      this.resetBuy();
+      alert("매수 주문 전송 완료");
     }
     else{
       alert("매수 불가! 현재 보유하고있는 자산 금액을 확인해주세요.");
     } 
+  };
+  requestCost=()=>{//json 파일에서 해당 주식의 현재가/고가/저가 데이터 가져옴
+    shortStockInfos.data.filter((data) => {
+      if(data.종목 == keyword) return data
+            }).map((data, index) => {
+              this.state.nowcost=data.현재가
+              this.state.inputcost=data.현재가//처음 가격은 시장가로 지정
+              this.state.highcost=data.고가
+              this.state.lowcost=data.저가
+      })
   };
   //매수를 위해 사용자의 자산을 가지고옴
   requestUser = ()=>{
     const post ={
       query : "SELECT * FROM ACCOUNT WHERE UserID='"+this.state.userid+"';",//현재 아이디의 사용자의 계정 접근
     };
-    fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+    fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
       headers : {"content-type" : "application/json",},
       body : JSON.stringify(post),
@@ -95,35 +108,47 @@ class BuyStockPage  extends Component {
       });
     });
   };
+  requestOrder=()=>{
+    if(this.state.inputcost==this.state.nowcost){//사용자 입력값이 현재 시장가와 동일하면 
+      this.setState({ result:"주문 완료" });
+      this.updateMystockList(); //매수 체결
+      this.updateAccount();
+    }
+    else if(this.state.inputcost>this.state.nowcost){//사용자 입력값이 현재 시장가보다 크면
+      this.setState({ inputcost: this.state.nowcost, result:"주문 완료" });
+      this.updateMyStockList();//매수 체결
+      this.updateAccount();
+    }
+  }
   //MYSTOCKLIST db에 매수 주식 개수 반영
   updateMystockList=()=>{
     this.hasStock();
-    if(this.state.userQuantity<1){//해당 주식을 사용자가 가지고 있지않으면
-      const post ={//주식 리스트에 추가 
-        query : "INSERT INTO MYSTOCKLIST(UserID,HoldingQuantity,HoldingStockName) VALUES ('"+this.state.userid+"','"+this.state.quantity+",'"+this.state.stockName+"');",//mysql로 전송할 쿼리 문 
+    if(this.state.userQuantity>=0){//해당 주식을 사용자가 가지고 있으면
+      const post ={//주식 개수만 업데이트
+        query : "UPDATE MYSTOCKLIST SET HoldingQuantity="+(this.state.userQuantity+this.state.quantity)+" WHERE UserID='"+this.state.userid+"' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
       };
-      fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+      fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
         method : "post", // 통신방법
         headers : {"content-type" : "application/json",},
         body : JSON.stringify(post),
       })
-    }else{//해당 주식을 사용자가 가지고 있으면
-      const post ={//주식 개수만 업데이트
-        query : "UPDATE MYSTOCKLIST SET HoldingQuantity="+(this.state.userQuantity+this.state.quantity)+" WHERE UserID='"+this.state.userid+"' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
+    }else{//해당 주식을 사용자가 가지고 있지않으면
+      const post ={//주식 리스트에 추가 
+        query : "INSERT INTO MYSTOCKLIST(UserID,HoldingQuantity,HoldingStockName) VALUES ('"+this.state.userid+"',"+this.state.quantity+",'"+this.state.stockName+"');",//mysql로 전송할 쿼리 문 
       };
-      fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+      fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
         method : "post", // 통신방법
         headers : {"content-type" : "application/json",},
         body : JSON.stringify(post),
       })
     }
-  }
+  };
   //해당 주식 종류를 사용자가 가지고 있는지 확인
   hasStock=()=>{
     const post ={
       query : "SELECT * FROM MYSTOCKLIST WHERE HoldingStockName='"+this.state.stockName+"' AND UserID='"+this.state.userid+"';",//mysql로 전송할 쿼리 문 
     };
-    fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+    fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소
       method : "post", // 통신방법
       headers : {"content-type" : "application/json",},
       body : JSON.stringify(post),
@@ -140,7 +165,7 @@ class BuyStockPage  extends Component {
     const post ={
       query : "UPDATE ACCOUNT SET TotalAsset="+(this.state.userTotalAsset+this.state.totalCost)+", Asset="+(this.state.userAsset-this.state.totalCost)+" WHERE UserID='"+this.state.userid+"';"//mysql로 전송할 쿼리 문 
     };
-    fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+    fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
       headers : {"content-type" : "application/json",},
       body : JSON.stringify(post),
@@ -149,10 +174,10 @@ class BuyStockPage  extends Component {
   //transaction db에 거래 내역 반영
   updateTransaction=()=>{
     const post ={
-      query : "INSERT INTO TRANSACTION(StockName, Quantity,TransactionDate,TransactionType, UserID) VALUES ('"
-      +this.state.stockName+"',"+this.state.quantity+",NOW(),'BUY','"+this.state.userid+"');"
+      query : "INSERT INTO TRANSACTION(StockName, Quantity,TransactionDate,TransactionType, UserID,InputPrice,Result) VALUES ('"
+      +this.state.stockName+"',"+this.state.quantity+",NOW(),'SELL','"+this.state.userid+"',"+this.state.inputcost+" , '"+this.state.result+"');"//mysql로 전송할 쿼리 문 
     };
-    fetch("http://18.118.194.10:8080/SQL",{//mysql fetch 서버 주소 
+    fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
       method : "post", // 통신방법
       headers : {"content-type" : "application/json",},
       body : JSON.stringify(post),
@@ -160,13 +185,13 @@ class BuyStockPage  extends Component {
     }
 
     resetBuy=()=>{this.setState({ quantity : 0});}//매도 취소 및 거래 완료 
-    CalTotalCost=()=>{ this.state.totalCost=this.state.cost*this.state.quantity; return this.state.totalCost;};//총 가격=현재가격*현재 개수
-    AddCost = () => {this.setState({ cost: this.state.cost + 1, }); }; //가격 +1
-    minusCost = () => { if(this.state.cost!=0){this.setState({ cost: this.state.cost - 100,});}}; //가격 -100
+    CalTotalCost=()=>{ this.state.totalCost=this.state.inputcost*this.state.quantity; return this.state.totalCost;};//총 가격=현재가격*현재 개수
+    AddCost = () => {this.setState({ inputcost: this.state.inputcost + 100, }); }; //가격 +100
+    minusCost = () => { if(this.state.inputcost!=0){this.setState({ inputcost: this.state.inputcost - 100,});}}; //가격 -100
     AddQuantity = () => {this.setState({ quantity: this.state.quantity + 1, }); }; //수량 +1
     minusQuantity = () => { if(this.state.quantity!=0){this.setState({ quantity: this.state.quantity - 1,});}}; //수량 -1
     openPopup=()=>{this.setState({isOpenPopup: true,})};//팝업 오픈
-     closePopup=()=>{this.setState({isOpenPopup: false, });if(change==true){this.setState({cost: Number(userInputCost),})}change=false;};//팝업 닫음 이때, 가격을 변동시킴   
+     closePopup=()=>{this.setState({isOpenPopup: false, });if(change==true){this.setState({inputcost: Number(userInputCost),})}change=false;};//팝업 닫음 이때, 가격을 변동시킴   
 }
 //지정가 입력 팝업
 class PopupContent extends Component {
