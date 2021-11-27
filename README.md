@@ -2,11 +2,11 @@
 <h1> 'SWEAP' 주식 모의투자 및 경진대회 시스템</h1>
 
 <h3> Team Member & Role</h3>
-* 2018112019 고가현 : Scrum Master, Front, Back
-* 2018112055 박용욱 : Project Manger, Server ,Front, Back
-* 2019111979 이창진 : Front, Back
-* 2019111997 박교녕 : Front, Back
-* 2019112059 이가영 : Database
+2018112019 고가현 : Scrum Master, Front, Back<br>
+2018112055 박용욱 : Project Manger, Server ,Front, Back<br>
+2019111979 이창진 : Front, Back<br>
+2019111997 박교녕 : Front, Back<br>
+2019112059 이가영 : Database<br>
 ---
 
 ### Project Goal
