@@ -6,19 +6,8 @@ CREATE TABLE USER
 	Email                 VARCHAR(20)  NULL ,
 	PwQuestion            VARCHAR(50)  NULL ,
 	PwAnswer              VARCHAR(50)  NULL ,
-	IsManger              SMALLINT  NOT NULL ,
+	IsManager              SMALLINT  NOT NULL ,
 	PRIMARY KEY(UserID)
-);
-
-
-CREATE TABLE STOCK
-(
-	StockName               VARCHAR(20)  NOT NULL ,
-	RealTimePrice         INT  NOT NULL ,
-	MaxPrice              INT  NULL ,
-	MinPrice              INT  NULL ,
-	YearSales             INT  NULL ,
-	PRIMARY KEY(StockID)
 );
 
 
@@ -31,7 +20,6 @@ CREATE TABLE TRANSACTION
 	TransactionType       VARCHAR(10)  NOT NULL ,
 	UserID                VARCHAR(20)  NOT NULL ,
 	PRIMARY KEY (TransactionNum),
-	FOREIGN KEY (StockName) REFERENCES STOCK(StockName),
 	FOREIGN KEY (UserID) REFERENCES USER(UserID)
 );
 
@@ -39,10 +27,7 @@ CREATE TABLE MYSTOCKLIST
 (
 	UserID                VARCHAR(20)  NOT NULL ,
 	HoldingQuantity       INT NULL ,
-	HoldingStockName      VARCHAR(20)  NOT NULL ,
-	PRIMARY KEY (UserID),
-	FOREIGN KEY (UserID) REFERENCES USER(UserID),
-	FOREIGN KEY (HoldingStockName) REFERENCES STOCK(StockName)
+	HoldingStockName      VARCHAR(20)  NOT NULL 
 );
 
 
