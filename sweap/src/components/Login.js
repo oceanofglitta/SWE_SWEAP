@@ -38,7 +38,7 @@ function Login() {
       .then((json) => {
         if (json.SUCCESS) {
           window.sessionStorage.setItem("userID", id);
-          window.location.href = "/ranking"; // 로그인 성공시 페이지 이동
+          window.location.href = "/"; // 로그인 성공시 페이지 이동
         } else alert("ID/PW를 다시 확인해주세요.");
       });
   }
