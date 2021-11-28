@@ -56,7 +56,7 @@ npm install
     ```SQL
     GRANT ALL PRIVILEGES ON *.* TO ‘root’@’%’ IDENTIFIED BY ‘mysql 설치시 최초 설정 비밀번호';
     ```
-- 다운받은 프로젝트 폴더의 database 폴더에 있는 final_sql.sql 파일을 이용하여 테이블을 생성한다.
+- 다운받은 프로젝트 폴더의 database 폴더에 있는 final_table.sql 파일을 이용하여 테이블을 생성한다.
 
 - 프로젝트를 실행한다
     ```sh
