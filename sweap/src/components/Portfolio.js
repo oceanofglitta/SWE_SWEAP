@@ -28,8 +28,8 @@ class Portfolio extends Component {
       stock:[],
       stocklist:[],
       userid: window.sessionStorage.getItem("userID"),
-      asset: 10,
-      totalAsset: 10,
+      asset: 0,
+      totalAsset: 0,
     };
     this.openPopup = this.openPopup.bind(this);
     this.closePopup = this.closePopup.bind(this);
@@ -133,13 +133,7 @@ class Portfolio extends Component {
   chargeAsset = () => {
     const post = {
       query:
-        "UPDATE ACCOUNT SET Asset=" +
-        this.state.asset +
-        ",TotalAsset=" +
-        this.state.totalAsset +
-        " WHERE UserID='" +
-        this.state.userid +
-        "';", //mysql로 전송할 쿼리 문
+        "UPDATE ACCOUNT SET Asset=" +(this.state.asset+Number(userInputAsset)) + ",TotalAsset=" +(this.state.totalAsset+Number(userInputAsset)) +" WHERE UserID='" +this.state.userid +"';", //mysql로 전송할 쿼리 문
     };
     fetch("http://18.118.194.10:8080/SQL1", {
       //mysql fetch 서버 주소
@@ -156,7 +150,7 @@ class Portfolio extends Component {
     if (change == true) {
       this.setState({
         asset: this.state.asset + Number(userInputAsset),
-        totlaAsset: this.state.totlaAsset + Number(userInputAsset),
+        totalAsset: this.state.totalAsset + Number(userInputAsset),
       });
       this.chargeAsset();
     }
