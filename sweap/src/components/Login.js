@@ -29,7 +29,7 @@ function Login() {
     };
     console.log(post.query);
 
-    fetch("http://18.118.194.10:8080/SQL1", {
+     fetch("http://18.118.194.10:8080/SQL1", {
       method: "post",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(post),
@@ -47,15 +47,17 @@ function Login() {
     window.location.href = "/register";
   }
 
-  console.log(inputs);
-
   return (
     <>
       <div className="Login">
         <br />
         SWEAP
         <br />
-        <RiMoneyDollarCircleLine size="150" />
+      </div>
+      <br />
+      <div className="dollarAlign">
+        {" "}
+        <RiMoneyDollarCircleLine className="shine" size="150" />
       </div>
       <br />
       <div className="Login2">

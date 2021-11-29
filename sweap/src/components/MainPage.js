@@ -3,14 +3,13 @@ import React from "react";
 import { Component } from "react/cjs/react.production.min";
 import "../css/MainPage.css";
 
-let start = true;
-
 class MainPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
     };
+    this.getTitle();
   }
   getTitle = () => {
     const post = {
@@ -33,12 +32,8 @@ class MainPage extends Component {
   };
 
   render() {
-    if (start) {
-      this.getTitle();
-      start = false;
-    }
     return (
-      <div style={{ paddingTop: "0.5vh", paddingBottom: "vh" }}>
+      <div style={{ paddingTop: "5vh", paddingBottom: "5vh" }}>
         <h1 style={{ textAlign: "center", fontSize: "10vh" }}>SWEAP</h1>
 
         <div className="align">
@@ -46,7 +41,9 @@ class MainPage extends Component {
             className="box_account"
             onClick={() => (window.location.href = "./PortFolio")}
           >
-            {window.sessionStorage.getItem("userID")}
+            <t style={{ color: "white" }}>
+              {window.sessionStorage.getItem("userID")}
+            </t>
           </div>
         </div>
         <br />
@@ -55,7 +52,7 @@ class MainPage extends Component {
           onClick={() => (window.location.href = "./contest")}
         >
           <span className="box_contest_text">
-            제 2회 모의투자 경진대회
+            <t style={{ fontWeight: "bold" }}>" 제 2회 모의투자 경진대회 "</t>
             <br />
             참가신청 바로가기
           </span>

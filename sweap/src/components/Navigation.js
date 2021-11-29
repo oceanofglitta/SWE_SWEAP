@@ -11,29 +11,35 @@ class Navigation extends Component {
   render() {
     return (
       <div className="Navigation1">
-        <NavLink className="Navigation2" to="/ranking">
-          <AiOutlineHome size="25" className="icon" />홈
+        <NavLink className="Navigation2" to="/">
+          <AiOutlineHome size="25" className="icon" />
+          <br />홈
         </NavLink>
         <NavLink className="Navigation2" to="/search">
           <AiOutlineFileSearch size="25" className="icon" />
+          <br />
           주식 조회
         </NavLink>
         <NavLink className="Navigation2" to="/contest">
           <AiOutlineStar size="25" className="icon" />
+          <br />
           경진대회
         </NavLink>
         <NavLink className="Navigation2" to="/board">
           <AiOutlineBars size="25" className="icon" />
-          회원 게시판
+          <br />
+          게시판
         </NavLink>
         {window.sessionStorage.getItem("userID") == null ? (
           <NavLink className="Navigation2" to="/login">
             <CgProfile size="25" className="icon" />
-            마이페이지
+            <br />
+            로그인
           </NavLink>
         ) : (
           <NavLink className="Navigation2" to="/Portfolio">
             <CgProfile size="25" className="icon" />
+            <br />
             마이페이지
           </NavLink>
         )}

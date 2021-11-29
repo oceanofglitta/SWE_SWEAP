@@ -1,56 +1,76 @@
 .Board {
-    display: flex;
-    font-size: 4vh;
-    font-weight: bold;
-    margin: 10px;
-    border-bottom: 5px solid rgb(26, 188, 156);
-    justify-content: space-between;
-  }
-  
-  .article {
-    margin: 10px;
-    font-size: 3vh;
-    margin-top: 25px;
-    border-bottom: 1px solid black;
-  }
-  
-  .title {
-    font-size: 25px;
-    font-weight: bold;
-  }
-  
-  .content {
-    font-size: 20px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .WriteButton {
-    font-size: 1rem;
-    width: 30vw;
-    color: white;
-    background-color: rgb(26, 188, 156);
-    border: none;
-    border-radius: 3px;
-    padding: 10px;
-    text-decoration: none;
-  
-    position: absolute;
-    align-items: center;
-    bottom: 10vh;
-    left: 32.5vw;
-  }
-  
-  .WriteButton:hover {
-    filter: brightness(90%);
-  }
-  
-  .likeButton {
-    background-color: transparent;
-    border: none;
-  }
-  
-  .likeButton:hover {
-    color: red;
-  }
-  
+  display: flex;
+  font-size: 4vh;
+  font-weight: bold;
+  margin: 10px;
+  border-bottom: 5px solid rgb(26, 188, 156);
+  justify-content: space-between;
+}
+
+.article {
+  margin: 10px;
+  font-size: 3vh;
+  margin-top: 25px;
+  border-bottom: 1px solid black;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.content {
+  font-size: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.WriteButton {
+  font-size: 1rem;
+  width: 30vw;
+  color: white;
+  background-color: rgb(26, 188, 156);
+  border: none;
+  border-radius: 3px;
+  padding: 10px;
+  text-decoration: none;
+
+  position: absolute;
+  align-items: center;
+  bottom: 10vh;
+  left: 32.5vw;
+}
+
+.WriteButton:hover {
+  filter: brightness(90%);
+}
+
+.likeButton {
+  background-color: transparent;
+  border: none;
+}
+
+.likeButton:hover {
+  color: rgb(231, 179, 66);
+}
+
+.search {
+  width: 80vw;
+  padding-left: 10vw;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchInput {
+  font-size: 1rem;
+  width: 80vw;
+  background-color: rgb(226, 226, 226);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.searchButton:hover {
+  filter: brightness(90%);
+}
