@@ -2,7 +2,7 @@ import { render } from "@testing-library/react"; // eslint-disable-line no-unuse
 import React from "react";
 import { Component } from "react/cjs/react.production.min";
 import "../css/MainPage.css";
-
+//메인페이지 클래스
 class MainPage extends Component {
   constructor(props) {
     super(props);

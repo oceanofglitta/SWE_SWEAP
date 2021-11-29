@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import "../css/Login.css";
-
+//사용자 로그인 함수
 function Login() {
   const [inputs, setInputs] = useState({
     id: "",

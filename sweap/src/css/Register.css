@@ -27,6 +27,19 @@
   padding-right: 25vw;
 }
 
+.toLogin {
+  font-size: 0.5rem;
+  width: 20vw;
+  color: black;
+  background-color: rgb(224, 224, 224);
+  border: none;
+  border-radius: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
 .CancelButton {
   font-size: 0.5rem;
   width: 20vw;

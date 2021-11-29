@@ -6,7 +6,7 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { AiOutlineStar } from "react-icons/ai";
 import { AiOutlineBars } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
-
+//하단 네비게이션 클래스
 class Navigation extends Component {
   render() {
     return (

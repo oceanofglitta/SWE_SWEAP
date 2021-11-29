@@ -3,6 +3,9 @@
   justify-content: center;
 }
 
+button:hover {
+  cursor: pointer;
+}
 .box_account {
   background-color: rgb(231, 179, 66);
   font-size: 4vh;
@@ -16,12 +19,27 @@
   font-weight: bold;
 
   line-height: 40vw;
+
+  animation-duration: 1s;
+  animation-name: good;
+  animation-fill-mode: forwards;
 }
 
 .box_account:hover {
   animation-duration: 0.5s;
   animation-name: mm;
   animation-fill-mode: forwards;
+
+  cursor: pointer;
+}
+
+@keyframes good {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
 }
 
 .box_contest {
@@ -44,17 +62,19 @@
 
 .box_contest:hover {
   filter: brightness(90%);
+  cursor: pointer;
 }
 
 .box_event:hover {
   filter: brightness(90%);
+  cursor: pointer;
 }
 
 @keyframes mm {
   0% {
-    transform: scale(1);
+    transform: scale(1.05);
   }
   100% {
-    transform: scale(1.03);
+    transform: scale(1);
   }
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/Write.css";
 import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
-
+//게시글 작성 함수
 function Write() {
   const [inputs, setInputs] = useState({
     title: "",

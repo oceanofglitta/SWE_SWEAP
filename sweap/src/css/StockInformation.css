@@ -1,58 +1,114 @@
 .StockName {
-    width:30vw;
-    font-size: 30px;
-    
-}
-
-.StockCurrentPrice {
-    width:30vw;
-    font-size: 20px;
-    color: red;
-}
-
-.StockNow {
-    padding: 1rem;
-}
-
-.buttonsss {
-    width: 7vw;
-    height: 5vh;
-    margin: 2px;
+    text-align: center;
+    font-size: 4vh;
+    font-weight: bold;
+    padding-bottom: 2vh;
+    border-bottom: 5px solid rgb(26, 188, 156);
+  }
+  
+  .StockCurrentPrice {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 3vh;
+    font-weight: bold;
+  }
+  
+  .StockNow {
+    margin: 10px;
+  }
+  
+  .buttonsss {
+    font-size: 2vh;
+    font-weight: bold;
+    padding: 0.5vh;
     cursor: pointer;
-    border: 1px solid #a0a0a0;
-    transition: all 0.15s;
-    user-select: none;
     text-align: center;
     display: inline-block;
+    width: 25vw;
     border-radius: 5px;
-    line-height: 5vh;
-}
-
-.buttonsss:hover {
-    background: #1abc9c;
-    color: white;
-}
-.buttons-wrapper {
-    width: 30vw;
-    padding: 1rem;
-}
-
-.chart-wrapper {
-    width: 28vw;
-    height: 28vw;
+  }
+  
+  .buttonsss:hover {
+    background-color: rgb(231, 179, 66);
+  }
+  .buttons-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 5px;
+  }
+  
+  .chart-wrapper {
+    height: 19vh;
     padding: 1rem;
     border: 1px solid black;
-    margin: 0 auto;
-}
-
-.goju-wrapper {
-    width:30vw;
-    padding: 1rem;
-}
-
-.gojuga {
-    width: 14vw;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .stkinfo {
+    margin: 10px;
+    font-size: 2.5vh;
+    font-weight: bold;
+  }
+  
+  .goju-wrapper {
+    margin: 10px;
+  }
+  
+  .gojuga {
+    font-size: 2vh;
+    font-weight: bold;
+    width: 20vw;
     display: inline-block;
-}
-
-.centered { display: table; margin-left: auto; margin-right: auto; padding: 1rem; }
+    margin-right: 10vw;
+  }
+  
+  .centered {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+  }
+  
+  .square {
+    border: 0;
+    width: 80px;
+    padding: 0px;
+    margin-top: 90px;
+    margin-left: calc(50% - 40px);
+    margin-left: -webkit-calc(50% - 40px);
+    margin-left: -moz-calc(50% - 40px);
+  }
+  
+  .spin {
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+  
+    height: 10vw;
+    width: 10vw;
+    border-radius: 50%;
+  
+    border: solid 5px;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  
+    border-right-color: rgb(231, 179, 66);
+    border-left-color: rgb(26, 188, 156);
+    animation-name: spin;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+    }
+  }

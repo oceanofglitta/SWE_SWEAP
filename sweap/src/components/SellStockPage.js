@@ -1,10 +1,11 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
 import { Component } from 'react/cjs/react.production.min';
 import '../css/Button.css';
 import ReactDom from 'react-dom';
 import shortStockInfos from '../dataframe.json'
 import { IoIosArrowBack } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+
 //url에서 넘어오는 매도할 주식의 stockName을 가지고 옴
 const current = decodeURI(window.location.href);
 const search = current.split("?")[1];
@@ -13,106 +14,54 @@ const keyword = params.get('stockName');
 
 function handleChangeCost(e){ userInputCost=e.target.value;}//지정가 입력창에 입력 받기
 function changeCost(){ change=true;}//지정가로 가격 변동
-function clickToPortfolio(e){ window.location.href="/Portfolio"} //사용자의 자산 평가 페이지로 이동 함수
 var start=0; var userInputCost=0; var change=false;
 const PopupDom = ({ children }) => {const el = document.getElementById('popup'); return ReactDom.createPortal(children, el);};
+//주식을 매수하는 페이지 생성함수 
 class SellStockPage  extends Component {
     constructor(props) { 
         super(props);
         this.state = {//현재 state 저장 
             stockName:keyword,
-            inputcost: 0,
-            nowcost:0,
-            lowcost:0,
-            highcost:0,
+            inputcost: 0,nowcost:0, lowcost:0, highcost:0,
             quantity:1,
             userid:window.sessionStorage.getItem("userID"),
-            userTotalAsset:0,
-            userAsset:0,
+            userTotalAsset:0,userAsset:0,userQuantity:0,
             totalCost:0,
-            userQuantity:0,
-            isOpenPopup: false,
             result:"주문 대기",
+            isOpenPopup: false,
         }; 
         this.openPopup = this.openPopup.bind(this);
         this.closePopup = this.closePopup.bind(this);  
     }
     render() {
+      //페이지가 새로고침될 경우 DB와 연동해 데이터를 가지고 옴
       if(start==0){this.startPage();this.requestStock();this.requestCost();this.requestAccount();}
       return (
         <>
         <div className="buy1">
-          <NavLink to="/Portfolio" className="icon">
-            <IoIosArrowBack size="40" />
-          </NavLink>
+          <NavLink to="/Portfolio" className="icon" style={{ position: "absolute", left: "10px" }} > <IoIosArrowBack size="40"/> </NavLink>
           {this.state.stockName}
         </div>
         <div className="form">
-          <div className="centered">
-            매도 시장가
-            <br />
-            <button className="bt" onClick={this.minusCost}>
-              –
-            </button>
-            <input
-              className="buyInput"
-              id="cost"
-              value={this.state.inputcost}
-              type="number"
-            />
-            <button className="bt" onClick={this.AddCost}>
-              +
-            </button>
+          <div className="centered"> 매도 시장가<br />
+            <button className="bt" onClick={this.minusCost}> – </button>
+            <input className="buyInput" id="cost" value={this.state.inputcost} type="number" />
+            <button className="bt" onClick={this.AddCost}> + </button>
             <div>
               <p />
-              <button
-                className="priceButton"
-                type="button"
-                id="popup"
-                onClick={this.openPopup}
-              >
-                매도 지정가
-              </button>
-
-              {this.state.isOpenPopup && (
-                <PopupDom>
-                  <PopupContent onClose={this.closePopup} />
-                </PopupDom>
-              )}
+              <button className="priceButton" type="button" id="popup" onClick={this.openPopup}> 매도 지정가 </button>
+              {this.state.isOpenPopup && ( <PopupDom> <PopupContent onClose={this.closePopup} /></PopupDom> )}
             </div>
-            <br />
-            매도 개수
-            <br />
-            <button className="bt" onClick={this.minusQuantity}>
-              –
-            </button>
-            <input
-              id="quantity"
-              value={this.state.quantity}
-              min="0"
-              type="number"
-            />{" "}
-            <button className="bt" onClick={this.AddQuantity}>
-              +
-            </button>
+            <br />매도 개수 <br />
+            <button className="bt" onClick={this.minusQuantity}> – </button>
+            <input id="quantity" value={this.state.quantity}  min="0" type="number" />{" "}
+            <button className="bt" onClick={this.AddQuantity}> + </button>
           </div>
-          <br />
-          총 금액
-          <br />
-          <span
-            id="TotalCost"
-            class="quiz-text"
-            style={{ color: "blue", fontSize: "60px " }}
-          >
-            {this.CalTotalCost()}
-          </span>
+          <br />총 금액 <br />
+          <span id="TotalCost" class="quiz-text" style={{ color: "blue", fontSize: "60px " }}> {this.CalTotalCost()}</span>
           <div className="button-centered">
-            <button onClick={this.sellStock} className="sButton">
-              매도
-            </button>
-            <button onClick={this.resetSell} className="cButton">
-              취소
-            </button>
+            <button onClick={this.sellStock} className="sButton"> 매도 </button>
+            <button onClick={this.resetSell} className="cButton"> 취소 </button>
           </div>
         </div>
       </>
@@ -135,7 +84,8 @@ class SellStockPage  extends Component {
     //매도를 위해 사용자가 해당 주식을 가지고 있는지 확인
     requestStock = ()=>{
       const post ={
-        query : "SELECT * FROM MYSTOCKLIST WHERE UserID='"+this.state.userid+"' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
+        query : "SELECT * FROM MYSTOCKLIST WHERE UserID='"+this.state.userid+
+        "' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
       };
       fetch("http://18.118.194.10:8080/SQL1",{//mysql fetch 서버 주소 
         method : "post", // 통신방법
@@ -149,16 +99,20 @@ class SellStockPage  extends Component {
         }    );
       });
   };
-  requestCost=()=>{//json 파일에서 해당 주식의 현재가/고가/저가 데이터 가져옴
+  //json 파일에서 해당 주식의 현재가/고가/저가 데이터 가져옴
+  requestCost=()=>{
     shortStockInfos.data.filter((data) => {
       if(data.종목 == keyword) return data
             }).map((data, index) => {
-              this.state.nowcost=data.현재가
-              this.state.inputcost=data.현재가//처음 가격은 시장가로 지정
-              this.state.highcost=data.고가
-              this.state.lowcost=data.저가
+              this.setState({
+                nowcost:data.현재가,
+                inputcost:data.현재가,//처음 가격은 시장가로 지정
+                highcost:data.고가,
+                lowcost:data.저가
+          });
       })
   };
+  //ACCOUNT DB에서 매도를 위해 사용자가 보유하고 있는 해당 주식의 수량을 가져옴
   requestAccount = ()=>{
     const post ={
       query : "SELECT * FROM ACCOUNT WHERE UserID='"+this.state.userid+"';",//mysql로 전송할 쿼리 문 
@@ -176,6 +130,7 @@ class SellStockPage  extends Component {
       }    );
     });
   };
+  //매도 요청을 보내는 함수
   requestOrder=()=>{
     if(this.state.inputcost==this.state.nowcost){//사용자 입력값이 현재 시장가와 동일하면 
       this.setState({ result:"주문 완료" });
@@ -200,7 +155,7 @@ class SellStockPage  extends Component {
       body : JSON.stringify(post),
     })
   }
-    //MYSTOCKLIST db에 매도 주식 개수 반영
+  //MYSTOCKLIST db에 매도 주식 개수 반영
   updateMyStockList=()=>{
     const post ={
       query : "UPDATE MYSTOCKLIST SET HoldingQuantity="+(this.state.userQuantity-this.state.quantity)+" WHERE UserID='"+this.state.userid+"' AND HoldingStockName='"+this.state.stockName+"';",//mysql로 전송할 쿼리 문 
@@ -238,27 +193,13 @@ class PopupContent extends Component {
     return (
       <div className="popup">
         <div className="common_alert">
-          <input
-            className="assetInput"
-            type="number"
-            onChange={handleChangeCost}
-            style={{ width: "25vw" }}
-          />
-          <button
-            className="plusButton"
-            type="button"
-            onClick={(this.props.onClose, changeCost)}
-          >
-            입력
-          </button>
+          <input className="assetInput" type="number" min="0" onChange={handleChangeCost} style={{ width: "25vw" }}/>
+          <button className="plusButton" type="button" 
+          onClick={(e) => {  
+            changeCost(e); //입력을 클릭했을 경우 지정가를 변경 
+            this.props.onClose(); }}> 입력</button>
           <div>
-            <button
-              className="closeButton"
-              type="button"
-              onClick={this.props.onClose}
-            >
-              닫기
-            </button>
+            <button className="closeButton" type="button"  onClick={this.props.onClose}> 닫기 </button>
           </div>
         </div>
       </div>
