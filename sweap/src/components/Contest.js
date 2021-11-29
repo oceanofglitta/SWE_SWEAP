@@ -4,8 +4,9 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { IoIosArrowBack } from "react-icons/io";
 import { NavLink } from "react-router-dom";
 import { Component } from "react/cjs/react.production.min";
+import { BiTrophy } from "react-icons/bi";
 function clickToRanking(e){ window.location.href="/ranking"} //사용자의 자산 평가 페이지로 이동 함수
-
+//주식 경진대회 클래스
 class Contest extends Component {
   constructor(props) {
     super(props);
@@ -119,9 +120,20 @@ class Contest extends Component {
   render() {
     return (
       <>
-        <NavLink to="/" className="icon">
-          <IoIosArrowBack size="40" />
-        </NavLink>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "10px",
+          }}
+        >
+          <NavLink to="/" className="icon">
+            <IoIosArrowBack size="40" />
+          </NavLink>
+          <NavLink to="/ranking" className="icon">
+            <BiTrophy size="40" />
+          </NavLink>
+        </div>
         <div className="contesttt">
           <div className="contest1">
             {this.state.contestName}
@@ -140,6 +152,9 @@ class Contest extends Component {
             신청 기간
             <br />
             {this.state.preStartDate} ~ {this.state.preFinishDate}
+            <br />
+            <br />
+            <br />
             <div class="container">
               <div class="card">
                 <RiMoneyDollarCircleLine class="face front" />
@@ -148,11 +163,7 @@ class Contest extends Component {
             </div>
           </div>
         </div>
-        <div>
-        <button className="RankingButton" onClick={clickToRanking}>
-          경진대회 랭킹
-        </button>
-        </div>
+        <br />
         <button className="ContestButton" onClick={this.participate}>
           참가신청
         </button>

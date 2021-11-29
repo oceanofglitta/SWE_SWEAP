@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/Register.css";
 import { NavLink } from "react-router-dom";
-
+//회원가입을 진행하는 함수
 function Register() {
   const [inputs, setInputs] = useState({
     id: "",

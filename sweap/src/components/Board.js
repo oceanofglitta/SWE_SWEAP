@@ -9,7 +9,7 @@ import { Component } from "react/cjs/react.production.min";
 function createData(title, content, like, time) {
   return { title, content, like, time };
 }
-
+//사용자 게시판 클래스
 class Board extends Component {
   constructor(props) {
     super(props);

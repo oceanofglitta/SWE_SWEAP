@@ -11,7 +11,8 @@
 }
 .form-wrappernf {
   padding-bottom: 3vh;
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   border-bottom: 5px solid rgb(26, 188, 156);
 }
 
@@ -22,7 +23,8 @@
 }
 
 .buy1 {
-  font-size: 5vh;
+  text-align: center;
+  font-size: 4vh;
   font-weight: bold;
   padding-bottom: 2vh;
   margin: 10px;
@@ -167,9 +169,38 @@
   margin-top: 1vh;
   font-size: 2vh;
 }
+.buyBigButton {
+  color: white;
+  width: 20vw;
+  background-color: rgb(204, 119, 119);
+  border: none;
+  border-radius: 3px;
+  margin-right: 1vh;
+  padding: 0.75vh;
+  height: 5vh;
+  margin-top: 1.75vh;
+  margin-bottom:0.5vh;
+  margin-left:30px;
+  font-size: 2.5vh;
+}
+
+.sellBigButton {
+  color: white;
+  width: 20vw;
+  background-color: rgb(128, 191, 233);
+  border: none;
+  border-radius: 3px;
+  padding: 0.75vh;
+  margin-bottom:0.5vh;
+  height: 5vh;
+  font-size: 2.5vh;
+}
 .bButton:hover {
   filter: brightness(90%);
 }
 .cButton:hover {
+  filter: brightness(90%);
+}
+.sButton:hover {
   filter: brightness(90%);
 }

@@ -7,7 +7,7 @@ import { Component } from "react/cjs/react.production.min";
 function createData(id, profit) {
   return { id, profit };
 }
-
+//경진대회 랭킹 함수 
 class Ranking extends Component {
   constructor(props) {
     super(props);
@@ -77,12 +77,13 @@ class Ranking extends Component {
   render() {
     return (
       <>
-        <NavLink to="/" className="icon">
-          <IoIosArrowBack size="40" />
-        </NavLink>
-        <div className="ranking1">제 1회 모의투자 경진대회 결과</div>
+        <div style={{ margin: "10px", display: "flex" }}>
+          <NavLink to="/contest" className="icon">
+            <IoIosArrowBack size="40" />
+          </NavLink>
+          <div className="ranking1">제 1회 모의투자 경진대회 결과</div>
+        </div>
         <div className="ranking">
-          <br />
           <br />
           <div className="top1">
             <div className="top3">

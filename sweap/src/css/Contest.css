@@ -37,39 +37,22 @@
   filter: brightness(90%);
 }
 
-.RankingButton {
-  font-size: 1rem;
-  width: 30vw;
-  color: white;
-  background-color: rgb(26, 188, 156);
-  border: none;
-  border-radius: 3px;
-  padding: 10px;
-
-  position: absolute;
-  bottom: 17.5vh;
-  left: 35vw;
-}
-.RankingButton:hover {
-  filter: brightness(90%);
-}
-
 .dollar:hover {
   filter: hue-rotate();
 }
 
 .container {
   position: relative;
-  margin: 10px 0 10px 0;
+  margin: 10px 0 20px 0;
   perspective: 1000;
 
   position: absolute;
-  bottom: 25vh;
+  bottom: 20vh;
 }
 
 .card {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   position: relative;
   transform-style: preserve-3d;
   transition: 0.5s;
