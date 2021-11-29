@@ -1,7 +1,7 @@
 .ranking {
   text-align: center;
   width: 80vw;
-  padding-left: 10vw;
+  padding-left: 12vw;
 }
 
 .ranking1 {
@@ -16,7 +16,7 @@
 
   height: 6vh;
   width: 60vw;
-  background-color: rgb(218, 187, 104);
+  background-color: black;
   border-radius: 20px;
 
   display: flex;
@@ -33,7 +33,7 @@
   height: 30vw;
   width: 30vw;
   border-radius: 50%;
-  color: white;
+  color: black;
   background-color: rgb(26, 188, 156);
 }
 
@@ -50,9 +50,8 @@
 }
 
 .ranking3 {
-  font-size: 2vh;
+  font-size: 2.5vh;
   font-weight: bold;
-
   height: 4vh;
   width: 60vw;
   background-color: rgb(211, 211, 211);
@@ -63,4 +62,23 @@
 
   padding-left: 5vw;
   padding-right: 10vw;
+}
+
+.top3:hover {
+  animation-duration: 0.5s;
+  animation-name: mm;
+  animation-fill-mode: forwards;
+}
+
+.ranking3:hover {
+  background-color: rgb(184, 184, 184);
+}
+
+@keyframes mm {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.03);
+  }
 }

@@ -28,7 +28,7 @@ class SearchPage  extends Component {
             if(this.state.search == null) return data
             else if(data.종목.toLowerCase().includes(this.state.search.toLowerCase())) return data
         }).map((data, index)=> {
-            const theStock = "/info?stockName="+data.종목
+            const theStock = "/StockInformation?stockName="+data.종목
             return (
                 <a href={theStock}>
                 <div className="stockItem" key={index}>{data.종목} {data.현재가}원</div>

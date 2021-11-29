@@ -1,5 +1,5 @@
 .Login {
-  font-size: 10vh;
+  font-size: 11vh;
   font-weight: bold;
   text-align: center;
 }
@@ -20,7 +20,7 @@
 
 .Buttons {
   width: 55vw;
-  padding-left: 20vw;
+  padding-left: 22.5vw;
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -36,6 +36,14 @@
   padding: 10px;
 }
 
+.LoginButton:hover {
+  filter: brightness(90%);
+}
+
+.LRegisterButton:hover {
+  filter: brightness(90%);
+}
+
 .LRegisterButton {
   font-size: 2vh;
   width: 25vw;
@@ -44,4 +52,26 @@
   border: none;
   border-radius: 3px;
   padding: 10px;
+}
+
+.shine {
+  animation-duration: 1s;
+  animation-name: good;
+  animation-fill-mode: forwards;
+}
+
+@keyframes good {
+  from {
+  }
+  70% {
+    color: rgb(231, 179, 66);
+    filter: brightness(105%);
+  }
+  to {
+    color: rgb(231, 179, 66);
+  }
+}
+
+.dollarAlign {
+  text-align: center;
 }

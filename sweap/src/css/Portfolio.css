@@ -1,0 +1,140 @@
+.logoutButton {
+    font-weight: bold;
+    width: 20vw;
+    color: white;
+    background-color: rgb(184, 184, 184);
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+  }
+  
+  .assetButton {
+    font-weight: bold;
+    width: 20vw;
+    color: white;
+    background-color: rgb(231, 179, 66);
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 1vh;
+  }
+  
+  .priceButton {
+    font-weight: bold;
+    width: 30vw;
+    color: white;
+    background-color: rgb(231, 179, 66);
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    margin-bottom: 1vh;
+  }
+  
+  .assetButton:hover {
+    background-color: rgb(26, 188, 156);
+  }
+  .priceButton:hover {
+    background-color: rgb(26, 188, 156);
+  }
+  .logoutButton:hover {
+    filter: brightness(90%);
+  }
+  
+  .portfolio1 {
+    font-size: 2vh;
+    font-weight: bold;
+    padding-bottom: 1vh;
+    padding-top: 2vh;
+  }
+  
+  .portfolio2 {
+    font-size: 2vh;
+    font-weight: bold;
+  }
+  
+  .portfolio3 {
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2vh;
+  }
+  
+  .popup {
+    font-size: 2vh;
+    color: white;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .assetInput {
+    margin-top: 1vh;
+    width: 12vw;
+    border: none;
+  }
+  
+  .plusButton {
+    width: 12vw;
+    background-color: rgb(231, 179, 66);
+    border: none;
+    margin-top: 1vh;
+  }
+  
+  .closeButton {
+    width: 12vw;
+    background-color: rgb(226, 226, 226);
+    border: none;
+  }
+  
+  .plusButton:hover {
+    filter: brightness(110%);
+  }
+  
+  .closeButton:hover {
+    filter: brightness(110%);
+  }
+  
+  .stocklist {
+    display: flex;
+    padding: 2vh;
+    margin: 10px;
+    justify-content: space-between;
+  
+    background-color: rgb(221, 221, 221);
+    height: 6vh;
+  }
+  
+  .stocklist:hover {
+    background-color: rgb(184, 184, 184);
+  }
+  
+  .buyButton {
+    color: white;
+    width: 12vw;
+    background-color: rgb(204, 119, 119);
+    border: none;
+    border-radius: 3px;
+    margin-right: 1vh;
+    padding: 0.5vh;
+    height: 4vh;
+    margin-top: 1vh;
+  }
+  
+  .sellButton {
+    color: white;
+    width: 12vw;
+    background-color: rgb(128, 191, 233);
+    border: none;
+    border-radius: 3px;
+    padding: 0.5vh;
+    height: 4vh;
+    margin-top: 1vh;
+  }
+  
+  .buyButton:hover {
+    filter: brightness(90%);
+  }
+  .sellButton:hover {
+    filter: brightness(90%);
+  }
+  

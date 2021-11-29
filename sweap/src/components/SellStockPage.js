@@ -3,7 +3,9 @@ import { Component } from 'react/cjs/react.production.min';
 import '../css/Button.css';
 import ReactDom from 'react-dom';
 import shortStockInfos from '../dataframe.json'
-
+import { IoIosArrowBack } from "react-icons/io";
+import { NavLink } from "react-router-dom";
+//url에서 넘어오는 매도할 주식의 stockName을 가지고 옴
 const current = decodeURI(window.location.href);
 const search = current.split("?")[1];
 const params = new URLSearchParams(search);
@@ -11,7 +13,7 @@ const keyword = params.get('stockName');
 
 function handleChangeCost(e){ userInputCost=e.target.value;}//지정가 입력창에 입력 받기
 function changeCost(){ change=true;}//지정가로 가격 변동
-function clickToPortfolio(e){ window.location.href="/Portfolio"} //주식 검색 페이지로 이동 함수
+function clickToPortfolio(e){ window.location.href="/Portfolio"} //사용자의 자산 평가 페이지로 이동 함수
 var start=0; var userInputCost=0; var change=false;
 const PopupDom = ({ children }) => {const el = document.getElementById('popup'); return ReactDom.createPortal(children, el);};
 class SellStockPage  extends Component {
@@ -23,7 +25,7 @@ class SellStockPage  extends Component {
             nowcost:0,
             lowcost:0,
             highcost:0,
-            quantity:0,
+            quantity:1,
             userid:window.sessionStorage.getItem("userID"),
             userTotalAsset:0,
             userAsset:0,
@@ -38,36 +40,87 @@ class SellStockPage  extends Component {
     render() {
       if(start==0){this.startPage();this.requestStock();this.requestCost();this.requestAccount();}
       return (
-          <div className="form">
-              <div className="form-wrapper">
-                  <button onClick={clickToPortfolio}>&lt; </button>
-                  <h1>{this.state.stockName}</h1>
-              </div>  
-              <div className="centered">
-                  <p>매도 시장가 </p>
-                  <button onClick={this.minusCost}>-</button>
-                  <input id="cost" value={this.state.inputcost} type='number'/>
-                  <button onClick={this.AddCost}>+</button>
-                  <div><p/>
-                  <button className="button-green" type="button" id="popup" onClick={this.openPopup}>매도 지정가</button><p/><p/><p/><p/>
-                    {this.state.isOpenPopup && <PopupDom><PopupContent onClose={this.closePopup}/></PopupDom>}
-                  </div><p/><p/><p/><p/><p/>
-                  <p>매도 개수</p>
-                  <button onClick={this.minusQuantity}>-</button>
-                  <input id="quantity" value={this.state.quantity} min="0" type='number'/>
-                  <button onClick={this.AddQuantity}>+</button>
-              </div>
-              <p style ={{color:"blue",fontSize: "20px"}}>총 금액</p><p/>
-              <span id="TotalCost" class="quiz-text" style ={{color:"blue",fontSize: "60px "}}>{this.CalTotalCost()}</span><p/><p/><p/>
-              <div className="button-centered">
-                  <div onClick={this.sellStock} className="button button-blue">매도</div>
-                  <div onClick={this.resetSell} className="button button-gray">취소</div>
-              </div>
+        <>
+        <div className="buy1">
+          <NavLink to="/Portfolio" className="icon">
+            <IoIosArrowBack size="40" />
+          </NavLink>
+          {this.state.stockName}
+        </div>
+        <div className="form">
+          <div className="centered">
+            매도 시장가
+            <br />
+            <button className="bt" onClick={this.minusCost}>
+              –
+            </button>
+            <input
+              className="buyInput"
+              id="cost"
+              value={this.state.inputcost}
+              type="number"
+            />
+            <button className="bt" onClick={this.AddCost}>
+              +
+            </button>
+            <div>
+              <p />
+              <button
+                className="priceButton"
+                type="button"
+                id="popup"
+                onClick={this.openPopup}
+              >
+                매도 지정가
+              </button>
+
+              {this.state.isOpenPopup && (
+                <PopupDom>
+                  <PopupContent onClose={this.closePopup} />
+                </PopupDom>
+              )}
+            </div>
+            <br />
+            매도 개수
+            <br />
+            <button className="bt" onClick={this.minusQuantity}>
+              –
+            </button>
+            <input
+              id="quantity"
+              value={this.state.quantity}
+              min="0"
+              type="number"
+            />{" "}
+            <button className="bt" onClick={this.AddQuantity}>
+              +
+            </button>
           </div>
+          <br />
+          총 금액
+          <br />
+          <span
+            id="TotalCost"
+            class="quiz-text"
+            style={{ color: "blue", fontSize: "60px " }}
+          >
+            {this.CalTotalCost()}
+          </span>
+          <div className="button-centered">
+            <button onClick={this.sellStock} className="sButton">
+              매도
+            </button>
+            <button onClick={this.resetSell} className="cButton">
+              취소
+            </button>
+          </div>
+        </div>
+      </>
       );
     }
+    //페이지 새로고침 
     startPage=()=>{if(start==0){start=1;} }
-    //매도
+    //매도를 진행하는 함수
     sellStock = ()=>{
       if(this.state.userQuantity>=this.state.quantity){//매도하려는 양이 현재 보유하고 있는 양보다 많을 경우
         this.requestOrder();
@@ -181,18 +234,35 @@ class SellStockPage  extends Component {
 }
 //지정가 입력 팝업
 class PopupContent extends Component {
-  render(){
-      return(
-              <div className="full_layer">
-                  <div className="common_alert"> 
-                    <input type="number" onChange={handleChangeCost}/>
-                    <button type="button" onClick={this.props.onClose,changeCost}>입력</button>
-                      <div>
-                      <button type="button" onClick={this.props.onClose}>닫기</button>
-                      </div>
-                  </div>
-              </div>
-      );
+  render() {
+    return (
+      <div className="popup">
+        <div className="common_alert">
+          <input
+            className="assetInput"
+            type="number"
+            onChange={handleChangeCost}
+            style={{ width: "25vw" }}
+          />
+          <button
+            className="plusButton"
+            type="button"
+            onClick={(this.props.onClose, changeCost)}
+          >
+            입력
+          </button>
+          <div>
+            <button
+              className="closeButton"
+              type="button"
+              onClick={this.props.onClose}
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 export default SellStockPage;

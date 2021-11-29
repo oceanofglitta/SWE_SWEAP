@@ -58,7 +58,7 @@ function Register() {
         ");",
     };
     console.log(post.query);
-    fetch("http://localhost:4000/SQL1", {
+    fetch("http://18.118.194.10:8080/SQL1", {
       method: "post",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(post),
