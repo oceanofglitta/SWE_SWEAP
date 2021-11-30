@@ -2,14 +2,16 @@ import { render } from "@testing-library/react"; // eslint-disable-line no-unuse
 import React from "react";
 import { Component } from "react/cjs/react.production.min";
 import "../css/StockInformation.css";
-import "../css/Button.css";
 import shortStockInfos from "../dataframe.json";
+import { IoIosArrowBack } from "react-icons/io";
+import { NavLink } from "react-router-dom";
+import Plot from "react-plotly.js"
 
 const current = decodeURI(window.location.href);
 const search = current.split("?")[1];
 const params = new URLSearchParams(search);
 const keyword = params.get("stockName");
-//주식 정보 클래스 
+
 class StockInformation extends Component {
   constructor(props) {
     super(props);
@@ -18,13 +20,35 @@ class StockInformation extends Component {
       changeRate: "-12",
       highPrice: "2000",
       lowPrice: "1000",
-
+      opt: 1,
       btn1: "rgb(231, 179, 66)",
       btn2: "",
       btn3: "",
       btn4: "",
+      graphs: []
     };
     this.updateInfo();
+    this.getChart();
+  }
+  getChart() {
+    console.log("dddd");
+    fetch("http://18.118.194.10:8080/getStockChart?stockName=" + keyword + "&option=" + this.state.opt, {
+      // /posture를 post를 통해 서버와 연동
+      method: "get",
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) =>  {
+          const datas = json.text.split(`,"layout"`)
+          const thedata = datas[0].substring(8)
+          const myArr = JSON.parse(thedata)
+          this.setState({
+            graphs: myArr
+          });
+          console.log(this.state.graphs)
+      });
   }
 
   updateInfo() {
@@ -69,7 +93,9 @@ class StockInformation extends Component {
             btn2: "",
             btn3: "",
             btn4: "",
+            opt: 1
           });
+          this.getChart();
           break;
         case "btn2":
           this.setState({
@@ -77,7 +103,9 @@ class StockInformation extends Component {
             btn1: "",
             btn3: "",
             btn4: "",
+            opt: 2
           });
+          this.getChart();
           break;
         case "btn3":
           this.setState({
@@ -85,7 +113,9 @@ class StockInformation extends Component {
             btn2: "",
             btn1: "",
             btn4: "",
+            opt: 3
           });
+          this.getChart();
           break;
         case "btn4":
           this.setState({
@@ -93,7 +123,9 @@ class StockInformation extends Component {
             btn2: "",
             btn3: "",
             btn1: "",
+            opt: 4
           });
+          this.getChart();
           break;
         default:
       }
@@ -102,6 +134,13 @@ class StockInformation extends Component {
     return (
       <main>
         <div className="StockNow">
+          <NavLink
+            to="/search"
+            className="icon"
+            style={{ position: "absolute", left: "10px" }}
+          >
+            <IoIosArrowBack size="40" />
+          </NavLink>
           <div className="StockName">{keyword}</div>
           {this.state.nowPrice === 1 ? (
             <div className="spin" />
@@ -125,7 +164,10 @@ class StockInformation extends Component {
           <></>
         ) : (
           <>
-            <div className="chart-wrapper">차트</div>
+            <div className="chart-wrapper">
+            <Plot data = {this.state.graphs} layout={{ margin: {l:50, r:10, b:20, t:20, pad: 1}}} />
+            
+            </div>
             <div className="buttons-wrapper">
               <div
                 className="buttonsss"
@@ -176,27 +218,6 @@ class StockInformation extends Component {
               </div>
               <hr style={{ border: "1px solid rgb(231, 179, 66)" }} />
             </div>
-            <div className="chart-wrapper">매출액</div>
-            <div>
-            <div className="centered">
-            <button
-              className="buyBigButton"
-              onClick={() => {
-                window.location.href = "/buy?stockName=" +keyword;
-              }}
-            >
-              매수
-            </button>
-            <button
-              className="sellBigButton"
-              onClick={() => {
-                window.location.href = "/sell?stockName=" + keyword;
-              }}
-            >
-              매도
-            </button>
-            </div>
-          </div>
           </>
         )}
       </main>
