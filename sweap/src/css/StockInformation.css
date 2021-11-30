@@ -41,11 +41,13 @@
   }
   
   .chart-wrapper {
-    height: 19vh;
+    height: 30vh;
     padding: 1rem;
     border: 1px solid black;
     margin-left: 10px;
     margin-right: 10px;
+    display:table-cell;
+    vertical-align:middle;
   }
   
   .stkinfo {
